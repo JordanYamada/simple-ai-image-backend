@@ -8,26 +8,29 @@ const openai = new OpenAIApi({
 
 const aiImage = async (req, res) => {
   try {
-    // const description = req.body.description;
+    const description = req.body.description;
     // console.log("REQUEST:", req.method, req.path);
     const response = await openai.images.generate({
       model: "dall-e-3",
-      // prompt: description,
-      prompt: 'Cat in a Hat',
+      prompt: description,
+      // prompt: 'Cat in a Hat',
       n: 1,
       size: "1024x1024",
     });
 
-    const imageUrl = response.data.data[0].url;
+    console.log(response.data);
+    const imageUrl = response.data[0].url;
 
     res.status(200).json({
-      data: response
+      success: true,
+      data: imageUrl
     });
 
   } catch (e) {
 
 // error handling from openai docs
-
+    console.log(e);
+    console.log(e.response);
     if (e.response) {
       console.log(e.response.status);
       console.log(e.response.data);
