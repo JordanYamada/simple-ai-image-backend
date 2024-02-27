@@ -1,6 +1,11 @@
 const OpenAIApi = require("openai");
 
 // this configuration will allow us to pass our API key during our request for a new image
+// const configuration = new Configuration({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
+
+
 const openai = new OpenAIApi({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -20,6 +25,7 @@ const aiImage = async (req, res) => {
 
     console.log(response.data);
     const imageUrl = response.data[0].url;
+    console.log('imageUrl:',imageUrl);
 
     res.status(200).json({
       success: true,

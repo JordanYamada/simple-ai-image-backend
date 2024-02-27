@@ -11,7 +11,7 @@ const v1 = require("./routes/imageRoute")
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 if (process.env.STATIC_PAGES_DIR) {
   console.log(
