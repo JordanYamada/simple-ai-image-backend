@@ -1,27 +1,22 @@
 "use strict";
+const axios = require("axios")
 
 
 const saveImage = async (req, res) => {
   try {
-    const imageUrl = req.body.imageUrl;
+    const image = req.body.image;
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ', image)
     
     // Fetch the image data from the provided URL
-    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    const response = await axios.get(image, { responseType: 'arraybuffer' });
     
-    // Here, you can perform any necessary conversions or manipulations on the image data
-    const blob = new Blob([response.data], { type: response.headers['content-type'] });
+    const url = Buffer.from(response.data, 'binary');
 
-      // Create a File object from the blob
-      const file = new File([blob], 'image.png', { type: 'image/png' });
-
-
-      // Create a URL representing the image file
-      const url = URL.createObjectURL(file);
     
     // Respond with the converted image URL
     res.status(200).json({
       success: true,
-      url: url,
+      url: url.toString('base64'),
     });
   } catch (error) {
     console.error('Error proxying image:', error);

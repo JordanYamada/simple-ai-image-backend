@@ -24,6 +24,7 @@ const aiImage = async (req, res) => {
     });
 
     console.log(response.data);
+    
     const imageUrl = response.data[0].url;
     const imageDescription = response.data[0].revised_prompt;
 
