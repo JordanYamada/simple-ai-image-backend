@@ -4,13 +4,19 @@ const axios = require("axios")
 
 const saveImage = async (req, res) => {
   try {
-    const image = req.body.image;
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ', image)
+    const image = req.body.params.image;
+    // console.log('!!!!!!!!!!!!!!!!!!!!!!!!BODY: ', req.body)
+    // // console.log('!!!!!!!!!!!!!!!!!!!!!!PARAMS: ', req.params)
+    // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!: ', image)
     
     // Fetch the image data from the provided URL
     const response = await axios.get(image, { responseType: 'arraybuffer' });
+
+    // console.log('!!!!!!!!!!!!!!!!!!!!!!!!RESPONSE: ', response)
     
     const url = Buffer.from(response.data, 'binary');
+
+    // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!URL: ', url)
 
     
     // Respond with the converted image URL
