@@ -1,5 +1,19 @@
 "use strict";
-const axios = require("axios")
+const axios = require("axios");
+const AWS = require("aws-sdk");
+const sharp = require("sharp");
+
+// Configure AWS SDK with credentials
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  // secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+// const kms = new AWS.KMS();
+// const KMS_KEY = process.env.KMS_KEY
+
+
+// Set the AWS region
+// AWS.config.update({ region: 'us-east-2' });
 
 
 const saveImage = async (req, res) => {
@@ -14,15 +28,47 @@ const saveImage = async (req, res) => {
 
     // console.log('!!!!!!!!!!!!!!!!!!!!!!!!RESPONSE: ', response)
     
-    const url = Buffer.from(response.data, 'binary');
+    // const url = Buffer.from(response.data, 'binary');
+
+
+    // Convert the image to JPEG format using sharp
+    const jpegBuffer = await sharp(response.data)
+      .jpeg()
+      .toBuffer();
+
+    
+      // Create a unique filename
+    const filename = `${Date.now()}.jpeg`;
+
+
+    // // Encrypt the image data using KMS
+    // const encryptedData = await kms.encrypt({
+    //   KeyId: KMS_KEY,
+    //   Plaintext: jpegBuffer
+    // }).promise();
+
+
+    // Prepare params for uploading to S3
+    const params = {
+      Bucket: 'dalle-image-storage',
+      Key: filename,
+      Body: jpegBuffer,
+      ContentType: 'image/jpeg',
+      // ServerSideEncryption: 'aws:kms',
+      // SSEKMSKeyId: KMS_KEY
+    };
+
+    // Upload image to S3
+    await s3.upload(params).promise();
 
     // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!URL: ', url)
 
     
-    // Respond with the converted image URL
+    // Respond with the S3 URL of the uploaded image
+    const imageUrl = `https://dalle-image-storage.s3.amazonaws.com/${filename}`;
     res.status(200).json({
       success: true,
-      url: url.toString('base64'),
+      url: imageUrl
     });
   } catch (error) {
     console.error('Error proxying image:', error);
