@@ -5,7 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const v1 = require("./routes/imageRoute")
+const v1 = require("./routes/routes")
 
 
 // add validation to confirm we are wired up to our mongo DB
