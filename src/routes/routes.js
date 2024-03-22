@@ -6,10 +6,8 @@ const dataModules = require("../models/Collection");
 
 
 const { aiImage } = require("../controllers/imageController")
-const { saveImage } =require("../controllers/saveImageRoute")
+const { saveImage } =require("../controllers/saveImageController")
 
-router.post("/dallE", aiImage);
-router.post('/saveImage', saveImage)
 
 
 router.param("model", (req, res, next) => {
@@ -22,6 +20,10 @@ router.param("model", (req, res, next) => {
   }
 });
 
+
+// All routes
+router.post("/dallE", aiImage);
+router.post('/saveImage', saveImage)
 router.get("/:model", handleGetAll);
 router.get("/:model/:id", handleGetOne);
 router.post("/:model", handleCreate);
@@ -30,7 +32,7 @@ router.delete("/:model/:id", handleDelete);
 
 
 async function handleGetAll(req, res) {
-  // let email = req.user.email;
+  // const email = req.user.email;
   let allRecords = await req.model.getAll();
   res.status(200).json(allRecords);
 }
@@ -60,10 +62,9 @@ async function handleUpdate(req, res) {
 }
 
 async function handleDelete(req, res) {
-  // id of task
   let id = req.params.id;
 
-  // can only delete tasks associated with authorized user from auth0
+  // can only delete images associated with authorized user from auth0
   // let email = req.user.email;
   let deletedRecord = await req.model.delete(id);
   res.status(200).json(deletedRecord);
