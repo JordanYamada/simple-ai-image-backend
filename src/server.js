@@ -37,9 +37,19 @@ if (process.env.STATIC_PAGES_DIR) {
   app.use("/", express.static(process.env.STATIC_PAGES_DIR));
 }
 
+
+
 //Routes
 // This version 1 route is still not protectect by authentication!!
 app.use("/api/v1", v1);
+
+app.get('/', (request, response) => {
+  try {
+    response.status(200).send('Proof of life');
+  } catch(e) {
+    console.log(e);
+  }
+});
 
 
 module.exports = {
