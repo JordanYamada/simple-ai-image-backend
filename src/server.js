@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "test") {
 
 //USE
 const app = express();
-app.use(cors({ origin: 'process.env.CLIENT_ORIGIN' }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
