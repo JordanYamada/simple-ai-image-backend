@@ -11,7 +11,7 @@ const s3 = new AWS.S3({
 
 const saveImage = async (req, res) => {
   try {
-    const image = req.body.params.image;
+    const image = req.body.image;
     
     // Fetch the image data from the provided URL
     const response = await axios.get(image, { responseType: 'arraybuffer' });
