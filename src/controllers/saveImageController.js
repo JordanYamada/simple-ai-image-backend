@@ -12,11 +12,13 @@ const s3 = new AWS.S3({
 const saveImage = async (req, res) => {
   try {
     const image = req.body.image;
+    console.log('IMAGE!!!!!:', image)
     
     // Fetch the image data from the provided URL
     const response = await axios.get(image, { responseType: 'arraybuffer' });
 
 
+    console.log('RESPONSE: ', response.data)
     // Convert the image to JPEG format using sharp
     const jpegBuffer = await sharp(response.data)
       .jpeg()
