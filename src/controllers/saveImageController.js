@@ -5,7 +5,7 @@ const sharp = require("sharp");
 
 // Configure AWS SDK with credentials
 const s3 = new AWS.S3({
-  accessKeyId: `${process.env.AWS_ACCESS_KEY_ID}`
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID
 });
 
 
