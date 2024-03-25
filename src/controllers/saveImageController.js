@@ -3,10 +3,13 @@ const axios = require("axios");
 const AWS = require("aws-sdk");
 const sharp = require("sharp");
 
-// Configure AWS SDK with credentials
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID
-});
+// const AWS = require("aws-sdk");
+
+// Configure AWS SDK to load credentials automatically
+AWS.config.credentials = new AWS.EnvironmentCredentials('AWS');
+
+// Initialize S3 client
+const s3 = new AWS.S3();
 
 
 const saveImage = async (req, res) => {
